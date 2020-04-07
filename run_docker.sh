@@ -35,5 +35,11 @@ ${GREEN}Running container in detached state...
 ${RED}Image Tag: ${BLUE}$ctag
 ${RED}Container Name: ${BLUE}$cname
 ${RED}Container ID: ${BLUE}$cid
-${GREEN}Access the application on port: ${BLUE}$outPort${NC}
+${RED}Application port: ${BLUE}$outPort${NC}
+
+${GREEN}You can now post predictions to the service.
+${GREEN}Run ${BLUE}make_prediction.sh ${GREEN}for a sample output.
+
+You can stop the container by running the command:
+'${RED}docker container stop ${BLUE}$cid${RED}'${NC}
 "
