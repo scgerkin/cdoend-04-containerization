@@ -16,6 +16,7 @@ NC='\033[0m'
 
 # Step 1:
 # Build image and add a descriptive tag
+echo -e "${GREEN}Building a fresh image...${NC}"
 docker build --tag=$ctag --rm .
 
 # Step 2:
@@ -25,13 +26,14 @@ docker image ls
 
 # Step 3:
 # Run flask app
+echo -e "${GREEN}Starting container...${NC}"
 docker run -p $outPort:$inPort -d --name $cname $ctag
 
 # get the truncated container ID
 cid=$(docker ps -qf "name=$cname")
 
 echo -e "
-${GREEN}Running container in detached state...
+${GREEN}The ${BLUE}$cname${GREEN} container has started in detached mode.
 ${RED}Image Tag: ${BLUE}$ctag
 ${RED}Container Name: ${BLUE}$cname
 ${RED}Container ID: ${BLUE}$cid
@@ -40,6 +42,18 @@ ${RED}Application port: ${BLUE}$outPort${NC}
 ${GREEN}You can now post predictions to the service.
 ${GREEN}Run ${BLUE}make_prediction.sh ${GREEN}for a sample output.
 
-You can stop the container by running the command:
-'${RED}docker container stop ${BLUE}$cid${RED}'${NC}
+The container will now be attached to STDIN.
+${RED}Stop the container with ${BLUE}CTRL+C${NC}
 "
+
+docker attach $cname
+
+echo -e "
+${RED}Container Stopped!
+Doing some clean up..."
+
+removedContainer=$(docker container rm $cname)
+
+echo -e "${GREEN}The container '${BLUE}$removedContainer${GREEN}' has been ${RED}removed.
+${GREEN}Restart the container by running ${BLUE}run_docker.sh${GREEN} again.
+${NC}"
