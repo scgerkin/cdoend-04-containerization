@@ -50,10 +50,14 @@ docker attach $cname
 
 echo -e "
 ${RED}Container Stopped!
-Doing some clean up..."
+Doing some clean up...${NC}"
 
+# remove container
 removedContainer=$(docker container rm $cname)
+# remove image
+docker image rm $ctag
 
-echo -e "${GREEN}The container '${BLUE}$removedContainer${GREEN}' has been ${RED}removed.
+echo -e "${GREEN}The container '${BLUE}$removedContainer${GREEN}' and \
+associated images have been ${RED}removed.
 ${GREEN}Restart the container by running ${BLUE}run_docker.sh${GREEN} again.
 ${NC}"
